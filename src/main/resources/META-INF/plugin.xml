@@ -1,0 +1,41 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+  <id>jp.s6n.idea.rustowl</id>
+
+  <!-- Public plugin name should be written in Title Case.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+  <name>RustOwl</name>
+
+  <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+  <vendor email="me@s6n.jp" url="https://github.com/siketyan">Naoki Ikeguchi</vendor>
+
+  <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+       Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+  <description><![CDATA[
+    <p>Visualize ownership and lifetimes in Rust for debugging and optimization.</p>
+    <p>
+      NOTE: This plugin is still under development.
+      If you found a bug, please <a href="https://github.com/siketyan/intellij-rustowl/issues/new">open an issue</a> on GitHub.
+    </p>
+    <p>Usage:</p>
+    <ol>
+      <li>Make sure <a href="https://github.com/cordx56/rustowl" target="_blank">RustOwl</a> is installed and on the PATH.</li>
+      <li>Install this plugin to your IDE.</li>
+      <li>Open Rust files and move the cursor to the identifier.</li>
+    </ol>
+  ]]></description>
+
+  <!-- Product and plugin compatibility requirements.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <!-- Extension points defined by the plugin.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+  <extensions defaultExtensionNs="com.intellij">
+    <editorFactoryListener implementation="jp.s6n.idea.rustowl.event.CaretMovedListener" />
+    <notificationGroup id="RustOwl" displayType="STICKY_BALLOON" />
+    <platform.lsp.serverSupportProvider implementation="jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider" />
+  </extensions>
+</idea-plugin>
