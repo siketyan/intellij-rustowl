@@ -2,6 +2,8 @@
 
 This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) for IntelliJ IDEs.
 
+![Screenshot](./.github/assets/screenshot.png)
+
 ## Prerequisites
 
 - JetBrains IDE 2024.3 or later
