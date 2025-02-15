@@ -27,6 +27,15 @@
     </ol>
   ]]></description>
 
+  <change-notes><![CDATA[
+    <h2>v0.1.1</h2>
+    <h3>Fixes</h3>
+    <ul>
+      <li>Fix highlighting is not working when multiple editors opened.</li>
+      <li>Fix possibly NullPointerException.</li>
+    </ul>
+  ]]></change-notes>
+
   <!-- Product and plugin compatibility requirements.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>

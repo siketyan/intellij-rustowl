@@ -7,7 +7,7 @@ plugins {
 
 group = "jp.s6n.idea"
 
-version = "0.1.0"
+version = "0.1.1"
 
 kotlin { jvmToolchain(21) }
 
@@ -43,6 +43,4 @@ intellijPlatform {
     publishing { token = providers.environmentVariable("PUBLISH_TOKEN") }
 }
 
-ktfmt {
-    kotlinLangStyle()
-}
+ktfmt { kotlinLangStyle() }
