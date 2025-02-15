@@ -4,6 +4,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.editor.markup.*
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.platform.lsp.api.LspServerManager
 import com.intellij.ui.JBColor
 import jp.s6n.idea.rustowl.lsp.RustOwlCursorRequest
@@ -26,6 +27,7 @@ class RustOwlHighlighter(
         }
 
         val project = editor.project ?: return
+        val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return
         val server = LspServerManager
             .getInstance(project)
             .getServersForProvider(RustOwlLspServerSupportProvider::class.java)
@@ -35,7 +37,7 @@ class RustOwlHighlighter(
             (it as RustOwlLsp4jServer).cursor(
                 RustOwlCursorRequest(
                     RustOwlCursorRequest.Position(position.line, position.column),
-                    RustOwlCursorRequest.Document(editor.virtualFile.url),
+                    RustOwlCursorRequest.Document(file.url),
                 )
             )
         } ?: return
