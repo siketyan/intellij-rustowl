@@ -17,8 +17,6 @@ class EditorUpdatedListener : EditorFactoryListener {
     }
 
     override fun editorReleased(event: EditorFactoryEvent) {
-        caretListenerMap[event.editor]?.let {
-            event.editor.caretModel.removeCaretListener(it)
-        }
+        caretListenerMap[event.editor]?.let { event.editor.caretModel.removeCaretListener(it) }
     }
 }

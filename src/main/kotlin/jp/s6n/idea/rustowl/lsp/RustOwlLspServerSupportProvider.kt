@@ -13,20 +13,21 @@ class RustOwlLspServerSupportProvider : LspServerSupportProvider {
     override fun fileOpened(
         project: Project,
         file: VirtualFile,
-        serverStarter: LspServerSupportProvider.LspServerStarter
+        serverStarter: LspServerSupportProvider.LspServerStarter,
     ) {
         if (file.extension != "rs") return
 
         // TODO: Customise location of cargo-owlsp
-        val owlspFile = PathEnvironmentVariableUtil.findExecutableInPathOnAnyOS("cargo-owlsp")
-            ?: return Notifications.Bus.notify(
-                Notification(
-                    "RustOwl",
-                    "RustOwl is not installed",
-                    "Could not find cargo-owlsp in the PATH.",
-                    NotificationType.ERROR
+        val owlspFile =
+            PathEnvironmentVariableUtil.findExecutableInPathOnAnyOS("cargo-owlsp")
+                ?: return Notifications.Bus.notify(
+                    Notification(
+                        "RustOwl",
+                        "RustOwl is not installed",
+                        "Could not find cargo-owlsp in the PATH.",
+                        NotificationType.ERROR,
+                    )
                 )
-            )
 
         serverStarter.ensureServerStarted(RustOwlLspServerDescriptor(project, owlspFile))
     }

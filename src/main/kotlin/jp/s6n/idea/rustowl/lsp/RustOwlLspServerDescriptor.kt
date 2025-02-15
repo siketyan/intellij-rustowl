@@ -7,10 +7,8 @@ import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import java.io.File
 
 @Suppress("UnstableApiUsage")
-class RustOwlLspServerDescriptor(
-    project: Project,
-    private val owlspFile: File,
-) : ProjectWideLspServerDescriptor(project, "RustOwl") {
+class RustOwlLspServerDescriptor(project: Project, private val owlspFile: File) :
+    ProjectWideLspServerDescriptor(project, "RustOwl") {
     override val lsp4jServerClass = RustOwlLsp4jServer::class.java
 
     override fun isSupportedFile(file: VirtualFile) = file.extension == "rs"

@@ -29,7 +29,11 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v4
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew buildPlugin
+      - name: Check Format
+        run: ./gradlew ktfmtCheck
+
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
 
       - name: Prepare Plugin Artifact
         id: artifact

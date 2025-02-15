@@ -7,5 +7,5 @@ indent_size = 4
 indent_style = space
 insert_final_newline = true
 
-[*.{iml,kts,mjs,json,xml,yml,yaml}]
+[*.{iml,mjs,json,xml,yml,yaml}]
 indent_size = 2
