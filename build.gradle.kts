@@ -22,8 +22,6 @@ repositories {
 dependencies {
   intellijPlatform {
     rustRover("2024.3.4")
-//    intellijIdeaUltimate("2024.3.2.2")
-//    bundledPlugins("com.jetbrains.rust")
     pluginVerifier()
   }
 }

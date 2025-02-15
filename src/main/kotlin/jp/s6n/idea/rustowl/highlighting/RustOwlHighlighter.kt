@@ -12,13 +12,14 @@ import jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider
 import java.awt.Color
 
 @Suppress("UnstableApiUsage")
-object RustOwlHighlighter {
-    private val LOG = Logger.getInstance(this.javaClass)
+class RustOwlHighlighter(
+    private val editor: Editor,
+) {
+    private val logger = Logger.getInstance(this.javaClass)
+    private val lastHighlighters = mutableListOf<RangeHighlighter>()
 
-    private var lastHighlighters: MutableList<RangeHighlighter> = mutableListOf()
-
-    fun highlight(editor: Editor, position: LogicalPosition) {
-        LOG.debug("Highlighting lifetimes at $position")
+    fun highlight(position: LogicalPosition) {
+        logger.debug("Highlighting lifetimes at $position")
 
         lastHighlighters.forEach {
             editor.markupModel.removeHighlighter(it)
@@ -39,7 +40,7 @@ object RustOwlHighlighter {
             )
         } ?: return
 
-        LOG.debug("RustOwl response: $response")
+        logger.debug("RustOwl response: $response")
 
         response.decorations.forEach { decoration ->
             @Suppress("UseJBColor")
@@ -51,7 +52,7 @@ object RustOwlHighlighter {
                 "call", "move" -> Color(0xCCEAA647_U.toInt(), true)
                 "outlive" -> Color(0xCCEA4747_U.toInt(), true)
                 else -> {
-                    LOG.warn("Unexpected decoration type: ${decoration.type}")
+                    logger.warn("Unexpected decoration type: ${decoration.type}")
                     return
                 }
             }.let {
