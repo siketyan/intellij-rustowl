@@ -7,14 +7,15 @@ import com.intellij.openapi.editor.markup.*
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.platform.lsp.api.LspServerManager
 import com.intellij.ui.JBColor
-import java.awt.Color
 import jp.s6n.idea.rustowl.lsp.RustOwlCursorRequest
 import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
 import jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider
+import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
 @Suppress("UnstableApiUsage")
 class RustOwlHighlighter(private val editor: Editor) {
     private val logger = Logger.getInstance(this.javaClass)
+    private val settings = RustOwlSettings.getInstance()
     private val lastHighlighters = mutableListOf<RangeHighlighter>()
 
     fun highlight(position: LogicalPosition) {
@@ -42,16 +43,14 @@ class RustOwlHighlighter(private val editor: Editor) {
         logger.debug("RustOwl response: $response")
 
         response.decorations.forEach { decoration ->
-            @Suppress("UseJBColor")
             val color =
                 when (decoration.type) {
-                    // TODO: Ability to change colours in settings
-                    "lifetime" -> Color(0xCC47EA54_U.toInt(), true)
-                    "imm_borrow" -> Color(0xCC4762EA_U.toInt(), true)
-                    "mut_borrow" -> Color(0xCCEA47EA_U.toInt(), true)
+                    "lifetime" -> settings.lifetimeColor
+                    "imm_borrow" -> settings.immutableBorrowingColor
+                    "mut_borrow" -> settings.mutableBorrowingColor
                     "call",
-                    "move" -> Color(0xCCEAA647_U.toInt(), true)
-                    "outlive" -> Color(0xCCEA4747_U.toInt(), true)
+                    "move" -> settings.valueMovedColor
+                    "outlive" -> settings.lifetimeErrorColor
                     else -> {
                         logger.warn("Unexpected decoration type: ${decoration.type}")
                         return
