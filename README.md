@@ -23,5 +23,5 @@ This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) fo
 
 ## Roadmap
 
-- [ ] Customise colours for highlighting
-- [ ] Customise location of cargo-owlsp
+- [x] Customise colours for highlighting
+- [x] Customise location of cargo-owlsp

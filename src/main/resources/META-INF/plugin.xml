@@ -28,11 +28,11 @@
   ]]></description>
 
   <change-notes><![CDATA[
-    <h2>v0.1.1</h2>
-    <h3>Fixes</h3>
+    <h2>v0.2.0</h2>
+    <h3>Features</h3>
     <ul>
-      <li>Fix highlighting is not working when multiple editors opened.</li>
-      <li>Fix possibly NullPointerException.</li>
+      <li>Added settings to specify the path to cargo-owlsp.</li>
+      <li>Added settings to customise highlighting colours.</li>
     </ul>
   ]]></change-notes>
 
