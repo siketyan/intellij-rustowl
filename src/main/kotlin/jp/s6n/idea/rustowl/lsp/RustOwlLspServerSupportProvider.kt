@@ -1,12 +1,14 @@
 package jp.s6n.idea.rustowl.lsp
 
-import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServerSupportProvider
+import java.io.File
+import jp.s6n.idea.rustowl.CargoOwlspFinder
+import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
 @Suppress("UnstableApiUsage")
 class RustOwlLspServerSupportProvider : LspServerSupportProvider {
@@ -17,9 +19,9 @@ class RustOwlLspServerSupportProvider : LspServerSupportProvider {
     ) {
         if (file.extension != "rs") return
 
-        // TODO: Customise location of cargo-owlsp
         val owlspFile =
-            PathEnvironmentVariableUtil.findExecutableInPathOnAnyOS("cargo-owlsp")
+            RustOwlSettings.getInstance().cargoOwlspPath.ifEmpty { null }?.let { File(it) }
+                ?: CargoOwlspFinder.getInstance().find()
                 ?: return Notifications.Bus.notify(
                     Notification(
                         "RustOwl",

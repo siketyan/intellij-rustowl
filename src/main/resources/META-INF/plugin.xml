@@ -43,6 +43,12 @@
   <!-- Extension points defined by the plugin.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
+    <applicationConfigurable
+      parentId="tools"
+      instance="jp.s6n.idea.rustowl.settings.RustOwlSettingsConfigurable"
+      id="jp.s6n.idea.rustowl.settings.RustOwlSettingsConfigurable"
+      displayName="RustOwl"
+    />
     <editorFactoryListener implementation="jp.s6n.idea.rustowl.event.EditorUpdatedListener" />
     <notificationGroup id="RustOwl" displayType="STICKY_BALLOON" />
     <platform.lsp.serverSupportProvider implementation="jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider" />
