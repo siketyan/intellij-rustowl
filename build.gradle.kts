@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rustRover("2024.3.4")
+        rustRover("251.23774.119") // 2025.1 EAP 6
         pluginVerifier()
     }
 }
@@ -28,7 +28,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "243"
-            untilBuild = "243.*"
+            untilBuild = "251.*"
         }
     }
 

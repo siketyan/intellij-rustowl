@@ -6,7 +6,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import java.io.File
 
-@Suppress("UnstableApiUsage")
 class RustOwlLspServerDescriptor(project: Project, private val owlspFile: File) :
     ProjectWideLspServerDescriptor(project, "RustOwl") {
     override val lsp4jServerClass = RustOwlLsp4jServer::class.java

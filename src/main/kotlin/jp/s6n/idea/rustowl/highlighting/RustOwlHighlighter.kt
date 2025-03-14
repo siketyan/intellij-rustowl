@@ -12,7 +12,6 @@ import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
 import jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
-@Suppress("UnstableApiUsage")
 class RustOwlHighlighter(private val editor: Editor) {
     private val logger = Logger.getInstance(this.javaClass)
     private val settings = RustOwlSettings.getInstance()
@@ -57,6 +56,7 @@ class RustOwlHighlighter(private val editor: Editor) {
                     }
                 }.let { JBColor(it, it) }
 
+            @Suppress("UnstableApiUsage")
             val textAttributes =
                 TextAttributes().also {
                     it.withAdditionalEffect(EffectType.BOLD_LINE_UNDERSCORE, color)

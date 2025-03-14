@@ -10,7 +10,6 @@ import java.io.File
 import jp.s6n.idea.rustowl.CargoOwlspFinder
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
-@Suppress("UnstableApiUsage")
 class RustOwlLspServerSupportProvider : LspServerSupportProvider {
     override fun fileOpened(
         project: Project,
