@@ -5,7 +5,12 @@ import com.intellij.openapi.editor.LogicalPosition
 
 @Suppress("PropertyName")
 data class RustOwlCursorResponse(var decorations: List<Decoration>) {
-    data class Decoration(var type: String, var range: Range, var hover_text: String)
+    data class Decoration(
+        var type: String,
+        var range: Range,
+        var hover_text: String,
+        var overlapped: Boolean,
+    )
 
     data class Range(var start: Location, var end: Location)
 

@@ -42,6 +42,10 @@ class RustOwlHighlighter(private val editor: Editor) {
         logger.debug("RustOwl response: $response")
 
         response.decorations.forEach { decoration ->
+            if (decoration.overlapped) {
+                return@forEach
+            }
+
             val color =
                 when (decoration.type) {
                     "lifetime" -> settings.lifetimeColor
