@@ -7,10 +7,10 @@ import com.intellij.util.application
 import java.io.File
 
 @Service(Service.Level.APP)
-class CargoOwlspFinder {
-    fun find(): File? = PathEnvironmentVariableUtil.findExecutableInPathOnAnyOS("cargo-owlsp")
+class RustOwlFinder {
+    fun find(): File? = PathEnvironmentVariableUtil.findExecutableInPathOnAnyOS("rustowl")
 
     companion object {
-        @JvmStatic fun getInstance(): CargoOwlspFinder = application.service()
+        @JvmStatic fun getInstance(): RustOwlFinder = application.service()
     }
 }

@@ -4,7 +4,7 @@ import com.intellij.openapi.options.BoundSearchableConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.emptyText
 import com.intellij.ui.dsl.builder.*
-import jp.s6n.idea.rustowl.CargoOwlspFinder
+import jp.s6n.idea.rustowl.RustOwlFinder
 import jp.s6n.idea.rustowl.ui.*
 
 class RustOwlSettingsConfigurable :
@@ -13,13 +13,14 @@ class RustOwlSettingsConfigurable :
 
     override fun createPanel(): DialogPanel = panel {
         group("RustOwl Settings") {
-            row("Path to cargo-owlsp:") {
-                textFieldWithBrowseButton("Choose cargo-owlsp executable")
+            row("Path to rustowl:") {
+                @Suppress("UnstableApiUsage")
+                textFieldWithBrowseButton("Choose rustowl executable")
                     .align(Align.FILL)
-                    .bindText(settings::cargoOwlspPath)
+                    .bindText(settings::rustowlPath)
                     .run {
                         component.emptyText.setText(
-                            CargoOwlspFinder.getInstance().find()?.let { "Auto-detected: $it" }
+                            RustOwlFinder.getInstance().find()?.let { "Auto-detected: $it" }
                                 ?: "Could not auto-detect cargo-owlsp from the PATH"
                         )
                     }
@@ -38,7 +39,7 @@ class RustOwlSettingsConfigurable :
             row("Value Moved / Function Call:") {
                 colorField().withTransparency().bindColor(settings::valueMovedColor)
             }
-            row("Lifetime Error:") {
+            row("Shared Mutable / Lifetime Error:") {
                 colorField().withTransparency().bindColor(settings::lifetimeErrorColor)
             }
         }
