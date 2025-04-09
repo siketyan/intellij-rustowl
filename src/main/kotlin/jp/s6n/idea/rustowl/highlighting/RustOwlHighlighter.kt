@@ -49,6 +49,7 @@ class RustOwlHighlighter(private val editor: Editor) {
                     "mut_borrow" -> settings.mutableBorrowingColor
                     "call",
                     "move" -> settings.valueMovedColor
+                    "shared_mut",
                     "outlive" -> settings.lifetimeErrorColor
                     else -> {
                         logger.warn("Unexpected decoration type: ${decoration.type}")

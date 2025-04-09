@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServerSupportProvider
 import java.io.File
-import jp.s6n.idea.rustowl.CargoOwlspFinder
+import jp.s6n.idea.rustowl.RustOwlFinder
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
 class RustOwlLspServerSupportProvider : LspServerSupportProvider {
@@ -19,13 +19,13 @@ class RustOwlLspServerSupportProvider : LspServerSupportProvider {
         if (file.extension != "rs") return
 
         val owlspFile =
-            RustOwlSettings.getInstance().cargoOwlspPath.ifEmpty { null }?.let { File(it) }
-                ?: CargoOwlspFinder.getInstance().find()
+            RustOwlSettings.getInstance().rustowlPath.ifEmpty { null }?.let { File(it) }
+                ?: RustOwlFinder.getInstance().find()
                 ?: return Notifications.Bus.notify(
                     Notification(
                         "RustOwl",
                         "RustOwl is not installed",
-                        "Could not find cargo-owlsp in the PATH.",
+                        "Could not find rustowl in the PATH.",
                         NotificationType.ERROR,
                     )
                 )

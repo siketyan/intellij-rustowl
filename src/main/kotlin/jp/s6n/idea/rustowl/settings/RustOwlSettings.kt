@@ -9,10 +9,10 @@ import java.awt.Color
 @State(name = "RustOwlSettings", storages = [(Storage("rustowl.xml"))])
 class RustOwlSettings :
     SimplePersistentStateComponent<RustOwlSettingsState>(RustOwlSettingsState()) {
-    var cargoOwlspPath: String
-        get() = state.cargoOwlspPath ?: ""
+    var rustowlPath: String
+        get() = state.rustowlPath ?: ""
         set(value) {
-            state.cargoOwlspPath = value
+            state.rustowlPath = value
         }
 
     var lifetimeColor: Color
