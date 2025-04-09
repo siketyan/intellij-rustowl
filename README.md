@@ -7,6 +7,7 @@ This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) fo
 ## Prerequisites
 
 - JetBrains IDE 2024.3 or later
+- RustOwl 0.2.0 or later
 
 > [!NOTE]
 > This plugin cannot be installed on Community IDEs as the plugin is built on top of the official LSP integration,
@@ -20,8 +21,3 @@ This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) fo
 - Make sure [RustOwl](https://github.com/cordx56/rustowl) is installed and on the PATH.</li>
 - Install this plugin to your IDE.</li>
 - Open Rust files and move the cursor to the identifier.</li>
-
-## Roadmap
-
-- [x] Customise colours for highlighting
-- [x] Customise location of cargo-owlsp
