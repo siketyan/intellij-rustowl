@@ -1,15 +1,15 @@
 package jp.s6n.idea.rustowl.lsp
 
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.platform.ide.progress.withBackgroundProgress
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
-import com.intellij.platform.util.progress.reportRawProgress
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.runBlocking
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
-import org.jetbrains.concurrency.runAsync
 
 sealed interface Progress {
     data class InProgress(val text: String, val percentage: Int) : Progress
@@ -76,27 +76,27 @@ class RustOwlLspNotificationHandler(
 
                 progress[params.token] = channel
 
-                runAsync {
-                    runBlocking {
-                        withBackgroundProgress(project, payload.title, payload.cancellable) {
-                            @Suppress("UnstableApiUsage")
-                            reportRawProgress { reporter ->
-                                while (true) {
-                                    when (val progress = channel.receive()) {
-                                        is Progress.InProgress -> {
-                                            reporter.text(progress.text)
-                                            reporter.fraction(progress.percentage / 100.0)
-                                        }
+                // I know this method is deprecated now, but the IntelliJ API doesn't allow us to set the custom
+                // fraction to the progress indicator. We don't do anything in our thread, just mirroring the progress
+                // reported by the LSP server. Using reportRawProgress was an option, but it's an internal API.
+                ProgressManager.getInstance().run(object : Task.Backgroundable(project, payload.title) {
+                    override fun run(indicator: ProgressIndicator) {
+                        runBlocking {
+                            while (true) {
+                                when (val progress = channel.receive()) {
+                                    is Progress.InProgress -> {
+                                        indicator.text = progress.text
+                                        indicator.fraction = progress.percentage / 100.0
+                                    }
 
-                                        is Progress.Done -> {
-                                            break
-                                        }
+                                    is Progress.Done -> {
+                                        break
                                     }
                                 }
                             }
                         }
                     }
-                }
+                })
             }
 
             WorkDoneProgressKind.report -> {
