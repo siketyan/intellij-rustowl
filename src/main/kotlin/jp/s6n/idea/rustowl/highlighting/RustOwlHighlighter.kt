@@ -61,10 +61,10 @@ class RustOwlHighlighter(private val editor: Editor) {
                     }
                 }.let { JBColor(it, it) }
 
-            @Suppress("UnstableApiUsage")
             val textAttributes =
                 TextAttributes().also {
-                    it.withAdditionalEffect(EffectType.BOLD_LINE_UNDERSCORE, color)
+                    it.effectType = EffectType.BOLD_LINE_UNDERSCORE
+                    it.effectColor = color
                 }
 
             val highlighter =
