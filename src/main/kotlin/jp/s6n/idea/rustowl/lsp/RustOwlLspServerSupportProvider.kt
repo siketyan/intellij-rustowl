@@ -5,10 +5,14 @@ import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.platform.lsp.api.LspServer
 import com.intellij.platform.lsp.api.LspServerSupportProvider
+import com.intellij.platform.lsp.api.lsWidget.LspServerWidgetItem
 import java.io.File
 import jp.s6n.idea.rustowl.RustOwlFinder
+import jp.s6n.idea.rustowl.icons.RustOwlIcons
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
+import jp.s6n.idea.rustowl.settings.RustOwlSettingsConfigurable
 
 class RustOwlLspServerSupportProvider : LspServerSupportProvider {
     override fun fileOpened(
@@ -32,4 +36,12 @@ class RustOwlLspServerSupportProvider : LspServerSupportProvider {
 
         serverStarter.ensureServerStarted(RustOwlLspServerDescriptor(project, owlspFile))
     }
+
+    override fun createLspServerWidgetItem(lspServer: LspServer, currentFile: VirtualFile?) =
+        LspServerWidgetItem(
+            lspServer,
+            currentFile,
+            RustOwlIcons.RustOwl,
+            RustOwlSettingsConfigurable::class.java,
+        )
 }
