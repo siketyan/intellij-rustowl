@@ -76,27 +76,29 @@ class RustOwlLspNotificationHandler(
 
                 progress[params.token] = channel
 
-                // I know this method is deprecated now, but the IntelliJ API doesn't allow us to set the custom
-                // fraction to the progress indicator. We don't do anything in our thread, just mirroring the progress
-                // reported by the LSP server. Using reportRawProgress was an option, but it's an internal API.
-                ProgressManager.getInstance().run(object : Task.Backgroundable(project, payload.title) {
-                    override fun run(indicator: ProgressIndicator) {
-                        runBlocking {
-                            while (true) {
-                                when (val progress = channel.receive()) {
-                                    is Progress.InProgress -> {
-                                        indicator.text = progress.text
-                                        indicator.fraction = progress.percentage / 100.0
-                                    }
+                // I know this method is deprecated now, but the IntelliJ API doesn't allow us to
+                // set the custom fraction to the progress indicator. We don't do anything in our
+                // thread, just mirroring the progress reported by the LSP server. Using
+                // reportRawProgress was an option, but it's an internal API.
+                val task =
+                    object : Task.Backgroundable(project, payload.title) {
+                        override fun run(indicator: ProgressIndicator) {
+                            runBlocking {
+                                while (true) {
+                                    when (val progress = channel.receive()) {
+                                        is Progress.InProgress -> {
+                                            indicator.text = progress.text
+                                            indicator.fraction = progress.percentage / 100.0
+                                        }
 
-                                    is Progress.Done -> {
-                                        break
+                                        is Progress.Done -> break
                                     }
                                 }
                             }
                         }
                     }
-                })
+
+                ProgressManager.getInstance().run(task)
             }
 
             WorkDoneProgressKind.report -> {
