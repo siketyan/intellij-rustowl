@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rustRover("251.23774.316") // 2025.1 EAP 9
+        rustRover("2025.1.2")
         pluginVerifier()
     }
 }
