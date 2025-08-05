@@ -7,7 +7,7 @@ plugins {
 
 group = "jp.s6n.idea"
 
-version = "0.3.1"
+version = "0.3.2"
 
 kotlin { jvmToolchain(21) }
 
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rustRover("2025.1.2")
+        rustRover("2025.1.5")
         pluginVerifier()
     }
 }
