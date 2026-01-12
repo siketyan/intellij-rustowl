@@ -28,10 +28,10 @@
   ]]></description>
 
   <change-notes><![CDATA[
-    <h2>v0.3.2</h2>
+    <h2>v0.3.3</h2>
     <h3>Fixes</h3>
     <ul>
-      <li>Added support for 2025.2.</li>
+      <li>Added support for 2025.3.</li>
     </ul>
   ]]></change-notes>
 
