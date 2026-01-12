@@ -6,12 +6,8 @@ This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) fo
 
 ## Prerequisites
 
-- JetBrains IDE 2024.3 or later
+- JetBrains IDE 2025.2.1 or later
 - RustOwl 0.2.0 or later
-
-> [!NOTE]
-> This plugin cannot be installed on Community IDEs as the plugin is built on top of the official LSP integration,
-> which is only available in paid IDEs.
 
 > [!NOTE]
 > Using on RustRover is recommended, though this plugin also works on other IDEs (without the paid Rust plugin).
