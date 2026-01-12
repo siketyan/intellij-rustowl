@@ -28,14 +28,10 @@
   ]]></description>
 
   <change-notes><![CDATA[
-    <h2>v0.4.0</h2>
-    <h3>Breaking Changes</h3>
+    <h2>v0.4.1</h2>
+    <h3>Fixes</h3>
     <ul>
-      <li>Drop support for IDEs older than 2025.2.1.</li>
-    </ul>
-    <h3>Features</h3>
-    <ul>
-      <li>Free IDEs such as IntelliJ IDEA Community Edition are now supported.</li>
+      <li>Restored the missing dependency for the `com.intellij.modules.platform` module.</li>
     </ul>
   ]]></change-notes>
 
