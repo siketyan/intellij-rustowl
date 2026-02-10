@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("org.jetbrains.kotlin.jvm") version "2.3.10"
     id("org.jetbrains.intellij.platform") version "2.11.0"
     id("com.ncorti.ktfmt.gradle") version "0.25.0"
 }
