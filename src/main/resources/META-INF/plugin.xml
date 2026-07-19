@@ -28,10 +28,14 @@
   ]]></description>
 
   <change-notes><![CDATA[
-    <h2>v0.4.1</h2>
-    <h3>Fixes</h3>
+    <h2>v0.5.0</h2>
+    <h3>Breaking Changes</h3>
     <ul>
-      <li>Restored the missing dependency for the `com.intellij.modules.platform` module.</li>
+      <li>Removed support for IDEs earlier than 2025.3.</li>
+    </ul>
+    <h3>Feature<h3>
+    <ul>
+      <li>Added support for 2026.2 IDEs.</li>
     </ul>
   ]]></change-notes>
 
