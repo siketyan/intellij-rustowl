@@ -30,7 +30,7 @@ class RustOwlHighlighter(private val editor: Editor) {
                 .firstOrNull() ?: return
 
         val response =
-            server.sendRequestSync {
+            server.sendRequestSync(10_000) {
                 (it as RustOwlLsp4jServer).cursor(
                     RustOwlCursorRequest(
                         RustOwlCursorRequest.Position(position.line, position.column),

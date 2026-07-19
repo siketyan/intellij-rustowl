@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rustRover("2026.1.4")
+        rustRover("2025.3.6")
         pluginVerifier()
     }
 }
