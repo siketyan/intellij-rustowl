@@ -40,8 +40,8 @@ jobs:
           distribution: oracle
           java-version: 21
 
-      - uses: gradle/actions/wrapper-validation@v6.2.0
-      - uses: gradle/actions/setup-gradle@v6.2.0
+      - uses: gradle/actions/wrapper-validation@v6.3.0
+      - uses: gradle/actions/setup-gradle@v6.3.0
 
       - name: Check Format
         run: ./gradlew ktfmtCheck
@@ -96,7 +96,7 @@ jobs:
           distribution: oracle
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v6.2.0
+      - uses: gradle/actions/setup-gradle@v6.3.0
 
       - uses: actions/cache@v6
         with:
