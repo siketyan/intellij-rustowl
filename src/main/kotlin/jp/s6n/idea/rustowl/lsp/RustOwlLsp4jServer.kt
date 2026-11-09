@@ -7,4 +7,7 @@ import org.eclipse.lsp4j.services.LanguageServer
 interface RustOwlLsp4jServer : LanguageServer {
     @JsonRequest("rustowl/cursor")
     fun cursor(request: RustOwlCursorRequest): CompletableFuture<RustOwlCursorResponse>
+
+    @JsonRequest("rustowl/analyze")
+    fun analyze(request: RustOwlAnalyzeRequest): CompletableFuture<Any?>
 }

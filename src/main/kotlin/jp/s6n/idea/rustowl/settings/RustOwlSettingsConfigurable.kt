@@ -21,14 +21,17 @@ class RustOwlSettingsConfigurable :
                     .run {
                         component.emptyText.setText(
                             RustOwlFinder.getInstance().find()?.let { "Auto-detected: $it" }
-                                ?: "Could not auto-detect cargo-owlsp from the PATH"
+                                ?: "Could not auto-detect rustowl from the PATH"
                         )
                     }
             }
         }
         group("Color Settings") {
-            row("Variable's Actual Lifetime:") {
+            row("Variable's Lifetime (Definitely Live):") {
                 colorField().withTransparency().bindColor(settings::lifetimeColor)
+            }
+            row("Variable's Lifetime (Maybe Live):") {
+                colorField().withTransparency().bindColor(settings::maybeInitializedColor)
             }
             row("Immutable Borrowing:") {
                 colorField().withTransparency().bindColor(settings::immutableBorrowingColor)

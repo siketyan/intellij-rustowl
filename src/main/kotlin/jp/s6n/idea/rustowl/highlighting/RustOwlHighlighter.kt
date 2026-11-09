@@ -41,30 +41,46 @@ class RustOwlHighlighter(private val editor: Editor) {
 
         logger.debug("RustOwl response: $response")
 
+        // RustOwl 0.4.0 or later reports `definitely_live` and `maybe_initialized` computed by the
+        // CFG-based analysis, and keeps reporting `lifetime` only for backward compatibility. Prefer
+        // the new ones if available, falling back to `lifetime` for older servers.
+        val hasPreciseLifetimes =
+            response.decorations.any {
+                it.type == "definitely_live" || it.type == "maybe_initialized"
+            }
+
         response.decorations.forEach { decoration ->
             if (decoration.overlapped) {
                 return@forEach
             }
 
-            val color =
+            val (color, effectType) =
                 when (decoration.type) {
-                    "lifetime" -> settings.lifetimeColor
-                    "imm_borrow" -> settings.immutableBorrowingColor
-                    "mut_borrow" -> settings.mutableBorrowingColor
+                    "lifetime" -> {
+                        if (hasPreciseLifetimes) return@forEach
+                        settings.lifetimeColor to EffectType.BOLD_LINE_UNDERSCORE
+                    }
+                    "definitely_live" -> settings.lifetimeColor to EffectType.BOLD_LINE_UNDERSCORE
+                    "maybe_initialized" ->
+                        settings.maybeInitializedColor to EffectType.WAVE_UNDERSCORE
+                    "imm_borrow" ->
+                        settings.immutableBorrowingColor to EffectType.BOLD_LINE_UNDERSCORE
+                    "mut_borrow" ->
+                        settings.mutableBorrowingColor to EffectType.BOLD_LINE_UNDERSCORE
                     "call",
-                    "move" -> settings.valueMovedColor
+                    "move" -> settings.valueMovedColor to EffectType.BOLD_LINE_UNDERSCORE
                     "shared_mut",
-                    "outlive" -> settings.lifetimeErrorColor
+                    "outlive" -> settings.lifetimeErrorColor to EffectType.WAVE_UNDERSCORE
                     else -> {
                         logger.warn("Unexpected decoration type: ${decoration.type}")
-                        return
+                        return@forEach
                     }
-                }.let { JBColor(it, it) }
+                }
 
             val textAttributes =
                 TextAttributes().also {
-                    it.effectType = EffectType.BOLD_LINE_UNDERSCORE
-                    it.effectColor = color
+                    it.effectType = effectType
+                    it.effectColor = JBColor(color, color)
                 }
 
             val highlighter =
