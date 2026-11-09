@@ -4,12 +4,12 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
-import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
+import com.intellij.platform.lsp.api.ProjectWideLspClientDescriptor
 import java.io.File
 import org.eclipse.lsp4j.ClientCapabilities
 
-class RustOwlLspServerDescriptor(project: Project, private val owlspFile: File) :
-    ProjectWideLspServerDescriptor(project, "RustOwl") {
+class RustOwlLspClientDescriptor(project: Project, private val owlspFile: File) :
+    ProjectWideLspClientDescriptor(project, "RustOwl") {
     override val lsp4jServerClass = RustOwlLsp4jServer::class.java
 
     override val clientCapabilities: ClientCapabilities
