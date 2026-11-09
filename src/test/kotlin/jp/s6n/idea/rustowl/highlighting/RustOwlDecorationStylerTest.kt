@@ -31,8 +31,9 @@ class RustOwlDecorationStylerTest {
             overlapped = overlapped,
         )
 
-    private fun List<StyledDecoration>.summary() =
-        map { Triple(it.decoration.type, it.color, it.effectType) }
+    private fun List<StyledDecoration>.summary() = map {
+        Triple(it.decoration.type, it.color, it.effectType)
+    }
 
     @Test
     fun `styles every known decoration type`() {

@@ -54,22 +54,22 @@ class RustOwlHighlighter(private val editor: Editor) {
         RustOwlDecorationStyler(palette)
             .style(response.decorations) { logger.warn("Unexpected decoration type: $it") }
             .forEach { (decoration, color, effectType) ->
-            val textAttributes =
-                TextAttributes().also {
-                    it.effectType = effectType
-                    it.effectColor = JBColor(color, color)
-                }
+                val textAttributes =
+                    TextAttributes().also {
+                        it.effectType = effectType
+                        it.effectColor = JBColor(color, color)
+                    }
 
-            val highlighter =
-                editor.markupModel.addRangeHighlighter(
-                    decoration.range.start.toOffset(editor),
-                    decoration.range.end.toOffset(editor),
-                    HighlighterLayer.LAST,
-                    textAttributes,
-                    HighlighterTargetArea.EXACT_RANGE,
-                )
+                val highlighter =
+                    editor.markupModel.addRangeHighlighter(
+                        decoration.range.start.toOffset(editor),
+                        decoration.range.end.toOffset(editor),
+                        HighlighterLayer.LAST,
+                        textAttributes,
+                        HighlighterTargetArea.EXACT_RANGE,
+                    )
 
-            lastHighlighters.add(highlighter)
-        }
+                lastHighlighters.add(highlighter)
+            }
     }
 }

@@ -30,7 +30,8 @@ class DocumentSavedListener : FileDocumentManagerListener {
             .getServersForProvider(RustOwlLspServerSupportProvider::class.java)
             .forEach { server ->
                 server.sendNotification { lsp4jServer ->
-                    (lsp4jServer as RustOwlLsp4jServer).analyze(RustOwlAnalyzeRequest())
+                    (lsp4jServer as RustOwlLsp4jServer)
+                        .analyze(RustOwlAnalyzeRequest())
                         .exceptionally {
                             logger.warn("rustowl/analyze request failed", it)
                             null

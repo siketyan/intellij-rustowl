@@ -28,15 +28,16 @@ class RustOwlDecorationStyler(private val palette: RustOwlPalette) {
      * skipped; unknown types are passed to [onUnknown].
      *
      * RustOwl 0.4.0 or later reports `definitely_live` and `maybe_initialized` computed by the
-     * CFG-based analysis, and keeps reporting `lifetime` only for backward compatibility. Prefer the
-     * new ones if available, falling back to `lifetime` for older servers.
+     * CFG-based analysis, and keeps reporting `lifetime` only for backward compatibility. Prefer
+     * the new ones if available, falling back to `lifetime` for older servers.
      */
     fun style(
         decorations: List<RustOwlCursorResponse.Decoration>,
         onUnknown: (String) -> Unit = {},
     ): List<StyledDecoration> {
-        val hasPreciseLifetimes =
-            decorations.any { it.type == DEFINITELY_LIVE || it.type == MAYBE_INITIALIZED }
+        val hasPreciseLifetimes = decorations.any {
+            it.type == DEFINITELY_LIVE || it.type == MAYBE_INITIALIZED
+        }
 
         return decorations.mapNotNull { decoration ->
             if (decoration.overlapped) return@mapNotNull null

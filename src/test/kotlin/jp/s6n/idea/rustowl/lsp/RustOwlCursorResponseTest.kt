@@ -9,7 +9,8 @@ class RustOwlCursorResponseTest {
 
     @Test
     fun `deserializes a response from RustOwl 0_4_0`() {
-        // Captured from the shape produced by RustOwl 0.4.0 (`crates/rustowl/src/lsp/decoration.rs`).
+        // Captured from the shape produced by RustOwl 0.4.0
+        // (`crates/rustowl/src/lsp/decoration.rs`).
         val json =
             """
             {
