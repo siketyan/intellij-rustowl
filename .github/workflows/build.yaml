@@ -5,12 +5,9 @@ on:
     branches:
       - main
   pull_request: {}
-  release:
-    types:
-      - created
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -66,11 +63,6 @@ jobs:
         with:
           name: ${{ steps.artifact.outputs.filename }}
           path: ./build/distributions/content/*/*
-
-      - uses: softprops/action-gh-release@v3
-        if: ${{ github.event_name == 'release' }}
-        with:
-          files: ./build/distributions/*.zip
 
   verify:
     name: Verify plugin
