@@ -27,7 +27,7 @@ dependencies {
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 
     intellijPlatform {
-        rustRover("2025.3.6")
+        rustRover("2026.1.4")
         pluginVerifier()
         testFramework(TestFrameworkType.Platform)
     }
@@ -48,7 +48,7 @@ intellijPlatform {
         }
 
         ideaVersion {
-            sinceBuild = "253"
+            sinceBuild = "261.26222"
             untilBuild = "263.*"
         }
     }
