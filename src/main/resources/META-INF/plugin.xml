@@ -28,12 +28,23 @@
   ]]></description>
 
   <change-notes><![CDATA[
+    <h2>v0.6.0</h2>
+    <h3>Features</h3>
+    <ul>
+      <li>Added support for RustOwl 0.4.0.</li>
+      <li>Visualize lifetimes with the new CFG-based analysis: definitely live ranges are underlined, and maybe live ranges are wave-underlined.</li>
+      <li>Request RustOwl to re-analyze the workspace when a Rust file is saved.</li>
+    </ul>
+    <h3>Bug Fixes</h3>
+    <ul>
+      <li>Fixed that an unknown decoration type stopped highlighting all the remaining decorations.</li>
+    </ul>
     <h2>v0.5.0</h2>
     <h3>Breaking Changes</h3>
     <ul>
       <li>Removed support for IDEs earlier than 2025.3.</li>
     </ul>
-    <h3>Feature<h3>
+    <h3>Feature</h3>
     <ul>
       <li>Added support for 2026.2 IDEs.</li>
     </ul>
@@ -57,4 +68,11 @@
     <notificationGroup id="RustOwl" displayType="STICKY_BALLOON" />
     <platform.lsp.serverSupportProvider implementation="jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider" />
   </extensions>
+
+  <applicationListeners>
+    <listener
+      class="jp.s6n.idea.rustowl.event.DocumentSavedListener"
+      topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener"
+    />
+  </applicationListeners>
 </idea-plugin>

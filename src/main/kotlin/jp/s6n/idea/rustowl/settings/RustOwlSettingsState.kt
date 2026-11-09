@@ -6,6 +6,7 @@ class RustOwlSettingsState : BaseState() {
     var rustowlPath by string()
 
     var lifetimeColor by string()
+    var maybeInitializedColor by string()
     var immutableBorrowingColor by string()
     var mutableBorrowingColor by string()
     var valueMovedColor by string()

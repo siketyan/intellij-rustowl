@@ -46,6 +46,9 @@ jobs:
       - name: Check Format
         run: ./gradlew ktfmtCheck
 
+      - name: Run Tests
+        run: ./gradlew test
+
       - name: Build Plugin
         run: ./gradlew buildPlugin
 

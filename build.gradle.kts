@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.4.21"
@@ -7,7 +9,7 @@ plugins {
 
 group = "jp.s6n.idea"
 
-version = "0.5.0"
+version = "0.6.0"
 
 kotlin { jvmToolchain(21) }
 
@@ -18,9 +20,13 @@ repositories {
 }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.opentest4j:opentest4j:1.3.0")
+
     intellijPlatform {
         rustRover("2025.3.6")
         pluginVerifier()
+        testFramework(TestFrameworkType.Platform)
     }
 }
 

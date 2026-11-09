@@ -21,6 +21,13 @@ class RustOwlSettings :
             state.lifetimeColor = ColorUtil.toHex(value, true)
         }
 
+    var maybeInitializedColor: Color
+        get() =
+            ColorUtil.fromHex(state.maybeInitializedColor, null) ?: ColorUtil.fromHex("47EA54CC")
+        set(value) {
+            state.maybeInitializedColor = ColorUtil.toHex(value, true)
+        }
+
     var immutableBorrowingColor: Color
         get() =
             ColorUtil.fromHex(state.immutableBorrowingColor, null) ?: ColorUtil.fromHex("4762EACC")

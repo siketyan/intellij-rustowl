@@ -22,7 +22,7 @@ class RustOwlHighlighter(private val editor: Editor) {
 
         lastHighlighters.forEach { editor.markupModel.removeHighlighter(it) }
 
-        val project = editor.project ?: return
+        val project = editor.project?.takeUnless { it.isDefault } ?: return
         val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return
         val server =
             LspServerManager.getInstance(project)
@@ -41,42 +41,35 @@ class RustOwlHighlighter(private val editor: Editor) {
 
         logger.debug("RustOwl response: $response")
 
-        response.decorations.forEach { decoration ->
-            if (decoration.overlapped) {
-                return@forEach
-            }
+        val palette =
+            RustOwlPalette(
+                lifetime = settings.lifetimeColor,
+                maybeInitialized = settings.maybeInitializedColor,
+                immutableBorrowing = settings.immutableBorrowingColor,
+                mutableBorrowing = settings.mutableBorrowingColor,
+                valueMoved = settings.valueMovedColor,
+                lifetimeError = settings.lifetimeErrorColor,
+            )
 
-            val color =
-                when (decoration.type) {
-                    "lifetime" -> settings.lifetimeColor
-                    "imm_borrow" -> settings.immutableBorrowingColor
-                    "mut_borrow" -> settings.mutableBorrowingColor
-                    "call",
-                    "move" -> settings.valueMovedColor
-                    "shared_mut",
-                    "outlive" -> settings.lifetimeErrorColor
-                    else -> {
-                        logger.warn("Unexpected decoration type: ${decoration.type}")
-                        return
+        RustOwlDecorationStyler(palette)
+            .style(response.decorations) { logger.warn("Unexpected decoration type: $it") }
+            .forEach { (decoration, color, effectType) ->
+                val textAttributes =
+                    TextAttributes().also {
+                        it.effectType = effectType
+                        it.effectColor = JBColor(color, color)
                     }
-                }.let { JBColor(it, it) }
 
-            val textAttributes =
-                TextAttributes().also {
-                    it.effectType = EffectType.BOLD_LINE_UNDERSCORE
-                    it.effectColor = color
-                }
+                val highlighter =
+                    editor.markupModel.addRangeHighlighter(
+                        decoration.range.start.toOffset(editor),
+                        decoration.range.end.toOffset(editor),
+                        HighlighterLayer.LAST,
+                        textAttributes,
+                        HighlighterTargetArea.EXACT_RANGE,
+                    )
 
-            val highlighter =
-                editor.markupModel.addRangeHighlighter(
-                    decoration.range.start.toOffset(editor),
-                    decoration.range.end.toOffset(editor),
-                    HighlighterLayer.LAST,
-                    textAttributes,
-                    HighlighterTargetArea.EXACT_RANGE,
-                )
-
-            lastHighlighters.add(highlighter)
-        }
+                lastHighlighters.add(highlighter)
+            }
     }
 }
