@@ -5,11 +5,11 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.editor.markup.*
 import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.platform.lsp.api.LspServerManager
+import com.intellij.platform.lsp.api.LspClientManager
 import com.intellij.ui.JBColor
 import jp.s6n.idea.rustowl.lsp.RustOwlCursorRequest
 import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
-import jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider
+import jp.s6n.idea.rustowl.lsp.RustOwlLspIntegrationProvider
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
 class RustOwlHighlighter(private val editor: Editor) {
@@ -24,13 +24,13 @@ class RustOwlHighlighter(private val editor: Editor) {
 
         val project = editor.project?.takeUnless { it.isDefault } ?: return
         val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return
-        val server =
-            LspServerManager.getInstance(project)
-                .getServersForProvider(RustOwlLspServerSupportProvider::class.java)
+        val client =
+            LspClientManager.getInstance(project)
+                .getClients(RustOwlLspIntegrationProvider::class.java)
                 .firstOrNull() ?: return
 
         val response =
-            server.sendRequestSync(10_000) {
+            client.sendRequestSync(10_000) {
                 (it as RustOwlLsp4jServer).cursor(
                     RustOwlCursorRequest(
                         RustOwlCursorRequest.Position(position.line, position.column),

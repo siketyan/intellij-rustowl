@@ -6,7 +6,7 @@ This is an IDE-specific port of [RustOwl](https://github.com/cordx56/rustowl) fo
 
 ## Prerequisites
 
-- JetBrains IDE 2025.3 or later
+- JetBrains IDE 2026.1.4 or later
 - RustOwl 0.4.0 or later (0.2.0 or later works with limited features)
 
 > [!NOTE]

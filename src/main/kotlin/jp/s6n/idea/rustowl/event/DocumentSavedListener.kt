@@ -5,10 +5,10 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileDocumentManagerListener
 import com.intellij.openapi.project.ProjectLocator
-import com.intellij.platform.lsp.api.LspServerManager
+import com.intellij.platform.lsp.api.LspClientManager
 import jp.s6n.idea.rustowl.lsp.RustOwlAnalyzeRequest
 import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
-import jp.s6n.idea.rustowl.lsp.RustOwlLspServerSupportProvider
+import jp.s6n.idea.rustowl.lsp.RustOwlLspIntegrationProvider
 
 /**
  * Asks RustOwl to re-analyze the workspace when a Rust file is saved.
@@ -28,10 +28,10 @@ class DocumentSavedListener : FileDocumentManagerListener {
             ProjectLocator.getInstance().guessProjectForFile(file)?.takeUnless { it.isDefault }
                 ?: return
 
-        LspServerManager.getInstance(project)
-            .getServersForProvider(RustOwlLspServerSupportProvider::class.java)
-            .forEach { server ->
-                server.sendNotification { lsp4jServer ->
+        LspClientManager.getInstance(project)
+            .getClients(RustOwlLspIntegrationProvider::class.java)
+            .forEach { client ->
+                client.sendNotification { lsp4jServer ->
                     (lsp4jServer as RustOwlLsp4jServer)
                         .analyze(RustOwlAnalyzeRequest())
                         .exceptionally {
