@@ -24,7 +24,9 @@ class DocumentSavedListener : FileDocumentManagerListener {
         val file = FileDocumentManager.getInstance().getFile(document) ?: return
         if (file.extension != "rs") return
 
-        val project = ProjectLocator.getInstance().guessProjectForFile(file) ?: return
+        val project =
+            ProjectLocator.getInstance().guessProjectForFile(file)?.takeUnless { it.isDefault }
+                ?: return
 
         LspServerManager.getInstance(project)
             .getServersForProvider(RustOwlLspServerSupportProvider::class.java)

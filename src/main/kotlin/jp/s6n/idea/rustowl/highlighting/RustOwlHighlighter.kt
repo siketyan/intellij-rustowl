@@ -22,7 +22,7 @@ class RustOwlHighlighter(private val editor: Editor) {
 
         lastHighlighters.forEach { editor.markupModel.removeHighlighter(it) }
 
-        val project = editor.project ?: return
+        val project = editor.project?.takeUnless { it.isDefault } ?: return
         val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return
         val server =
             LspServerManager.getInstance(project)
