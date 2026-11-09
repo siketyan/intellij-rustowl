@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/siketyan/intellij-rustowl/compare/v0.5.0...v0.6.0) (2026-11-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to LspClient API, require 2026.1.4 or later ([#90](https://github.com/siketyan/intellij-rustowl/issues/90))
+
+### Features
+
+* migrate to LspClient API, require 2026.1.4 or later ([#90](https://github.com/siketyan/intellij-rustowl/issues/90)) ([d70a87b](https://github.com/siketyan/intellij-rustowl/commit/d70a87b462c0c8e5cb5b649e71e032c8e86ec925))
+* support 2026.3 IDEs ([#89](https://github.com/siketyan/intellij-rustowl/issues/89)) ([dc1f024](https://github.com/siketyan/intellij-rustowl/commit/dc1f02449dc26b5d74fa1c612608f497dd2ef829))
+* support RustOwl 0.4.0 ([#87](https://github.com/siketyan/intellij-rustowl/issues/87)) ([542b08c](https://github.com/siketyan/intellij-rustowl/commit/542b08ca64d2cfebca5f09fc796cce2b4cbf6a1a))
+
 ## [0.5.0](https://github.com/siketyan/intellij-rustowl/compare/v0.4.1...v0.5.0) (2026-07-19)
 
 
