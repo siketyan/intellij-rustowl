@@ -1,4 +1,5 @@
 import org.jetbrains.changelog.Changelog
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -53,7 +54,15 @@ intellijPlatform {
         }
     }
 
-    pluginVerification { ides { recommended() } }
+    pluginVerification {
+        ides {
+            recommended()
+
+            // Also verify that the plugin can be installed on IDEs other than RustRover, including
+            // free ones. Selects the IntelliJ IDEA releases within the since/until builds.
+            select { types = listOf(IntelliJPlatformType.IntellijIdea) }
+        }
+    }
 
     signing {
         certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
