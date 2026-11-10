@@ -31,7 +31,7 @@ class RustOwlLspIntegrationProvider : LspIntegrationProvider {
                         "RustOwl is not installed",
                         "Could not find rustowl in the PATH.",
                         NotificationType.ERROR,
-                    )
+                    ),
                 )
 
         clientStarter.ensureClientStarted(RustOwlLspClientDescriptor(project, owlspFile))

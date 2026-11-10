@@ -48,7 +48,7 @@ class RustOwlDecorationStylerTest {
                     deco("call"),
                     deco("shared_mut"),
                     deco("outlive"),
-                )
+                ),
             )
 
         assertEquals(

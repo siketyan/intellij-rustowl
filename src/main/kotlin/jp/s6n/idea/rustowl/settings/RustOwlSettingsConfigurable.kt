@@ -21,7 +21,7 @@ class RustOwlSettingsConfigurable :
                     .run {
                         component.emptyText.setText(
                             RustOwlFinder.getInstance().find()?.let { "Auto-detected: $it" }
-                                ?: "Could not auto-detect rustowl from the PATH"
+                                ?: "Could not auto-detect rustowl from the PATH",
                         )
                     }
             }
