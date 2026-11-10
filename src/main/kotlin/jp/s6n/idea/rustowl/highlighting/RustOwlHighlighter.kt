@@ -35,7 +35,7 @@ class RustOwlHighlighter(private val editor: Editor) {
                     RustOwlCursorRequest(
                         RustOwlCursorRequest.Position(position.line, position.column),
                         RustOwlCursorRequest.Document(file.url),
-                    )
+                    ),
                 )
             } ?: return
 
