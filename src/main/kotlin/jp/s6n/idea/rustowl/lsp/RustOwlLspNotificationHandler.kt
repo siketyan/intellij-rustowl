@@ -1,10 +1,14 @@
 package jp.s6n.idea.rustowl.lsp
 
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
+import jp.s6n.idea.rustowl.highlighting.RustOwlHighlighter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.runBlocking
@@ -109,10 +113,44 @@ class RustOwlLspNotificationHandler(
             }
 
             WorkDoneProgressKind.end -> {
-                val channel = progress[params.token] ?: return
+                progress.remove(params.token)?.trySendBlocking(Progress.Done)
 
-                channel.trySendBlocking(Progress.Done)
+                rehighlight()
             }
         }
+    }
+
+    /**
+     * Highlights the selected editors again at their current caret positions.
+     *
+     * The cursor request sent while the analysis is running returns no decorations, and nothing
+     * triggers another request until the caret moves, so we request it again once the analysis is
+     * finished.
+     */
+    private fun rehighlight() {
+        val application = ApplicationManager.getApplication()
+
+        application.invokeLater(
+            {
+                val targets =
+                    FileEditorManager.getInstance(project)
+                        .selectedEditors
+                        .filterIsInstance<TextEditor>()
+                        .mapNotNull { textEditor ->
+                            val editor = textEditor.editor
+                            editor.getUserData(RustOwlHighlighter.KEY)?.let {
+                                it to editor.caretModel.logicalPosition
+                            }
+                        }
+
+                if (targets.isEmpty()) return@invokeLater
+
+                // Highlighting sends a request synchronously, so avoid blocking the EDT.
+                application.executeOnPooledThread {
+                    targets.forEach { (highlighter, position) -> highlighter.highlight(position) }
+                }
+            },
+            project.disposed,
+        )
     }
 }
