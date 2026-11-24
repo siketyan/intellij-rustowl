@@ -83,6 +83,11 @@ class RustOwlLspNotificationHandler(
                 val task =
                     object : Task.Backgroundable(project, payload.title) {
                         override fun run(indicator: ProgressIndicator) {
+                            // The indicator is indeterminate by default, and the platform logs an
+                            // IllegalStateException on setFraction unless we opt out beforehand.
+                            indicator.isIndeterminate = false
+                            indicator.fraction = 0.0
+
                             runBlocking {
                                 while (true) {
                                     when (val progress = channel.receive()) {
