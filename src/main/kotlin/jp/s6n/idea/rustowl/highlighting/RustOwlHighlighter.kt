@@ -13,14 +13,14 @@ import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
 import jp.s6n.idea.rustowl.lsp.RustOwlLspIntegrationProvider
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
-class RustOwlHighlighter(private val editor: Editor) {
+open class RustOwlHighlighter(private val editor: Editor) {
     private val logger = Logger.getInstance(this.javaClass)
     private val settings = RustOwlSettings.getInstance()
     private val lastHighlighters = mutableListOf<RangeHighlighter>()
 
     // Called from both the caret listener and the progress handler on different threads.
     @Synchronized
-    fun highlight(position: LogicalPosition) {
+    open fun highlight(position: LogicalPosition) {
         logger.debug("Highlighting lifetimes at $position")
 
         lastHighlighters.forEach { editor.markupModel.removeHighlighter(it) }
