@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.1](https://github.com/siketyan/intellij-rustowl/compare/v0.6.0...v0.6.1) (2026-11-24)
+
+
+### Features
+
+* highlight the selected editors again when the analysis is finished ([#101](https://github.com/siketyan/intellij-rustowl/issues/101)) ([75b86e2](https://github.com/siketyan/intellij-rustowl/commit/75b86e258b75fae8f587411dee44d81a156ffe7b))
+
+
+### Bug Fixes
+
+* switch the progress indicator to determinate on the first report ([#100](https://github.com/siketyan/intellij-rustowl/issues/100)) ([5a64960](https://github.com/siketyan/intellij-rustowl/commit/5a64960979d6686f9b52baf1613bb7c36706b729))
+
 ## [0.6.0](https://github.com/siketyan/intellij-rustowl/compare/v0.5.0...v0.6.0) (2026-11-09)
 
 
