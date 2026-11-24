@@ -12,6 +12,8 @@ class EditorUpdatedListener : EditorFactoryListener {
         val highlighter = RustOwlHighlighter(event.editor)
         val listener = CaretMovedListener(highlighter)
 
+        event.editor.putUserData(RustOwlHighlighter.KEY, highlighter)
+
         event.editor.caretModel.addCaretListener(listener)
         caretListenerMap[event.editor] = listener
     }

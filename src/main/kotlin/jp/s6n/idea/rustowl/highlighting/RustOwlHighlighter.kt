@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.editor.markup.*
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.util.Key
 import com.intellij.platform.lsp.api.LspClientManager
 import com.intellij.ui.JBColor
 import jp.s6n.idea.rustowl.lsp.RustOwlCursorRequest
@@ -12,12 +13,14 @@ import jp.s6n.idea.rustowl.lsp.RustOwlLsp4jServer
 import jp.s6n.idea.rustowl.lsp.RustOwlLspIntegrationProvider
 import jp.s6n.idea.rustowl.settings.RustOwlSettings
 
-class RustOwlHighlighter(private val editor: Editor) {
+open class RustOwlHighlighter(private val editor: Editor) {
     private val logger = Logger.getInstance(this.javaClass)
     private val settings = RustOwlSettings.getInstance()
     private val lastHighlighters = mutableListOf<RangeHighlighter>()
 
-    fun highlight(position: LogicalPosition) {
+    // Called from both the caret listener and the progress handler on different threads.
+    @Synchronized
+    open fun highlight(position: LogicalPosition) {
         logger.debug("Highlighting lifetimes at $position")
 
         lastHighlighters.forEach { editor.markupModel.removeHighlighter(it) }
@@ -71,5 +74,9 @@ class RustOwlHighlighter(private val editor: Editor) {
 
                 lastHighlighters.add(highlighter)
             }
+    }
+
+    companion object {
+        val KEY = Key.create<RustOwlHighlighter>("RustOwlHighlighter")
     }
 }
