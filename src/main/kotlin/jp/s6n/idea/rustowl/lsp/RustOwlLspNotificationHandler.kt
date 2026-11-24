@@ -6,6 +6,7 @@ import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.runBlocking
 import org.eclipse.lsp4j.*
@@ -15,6 +16,26 @@ sealed interface Progress {
     data class InProgress(val text: String, val percentage: Int) : Progress
 
     data object Done : Progress
+}
+
+/** Mirrors the progress received from [channel] to [indicator] until [Progress.Done] arrives. */
+internal suspend fun mirrorProgress(
+    channel: ReceiveChannel<Progress>,
+    indicator: ProgressIndicator,
+) {
+    while (true) {
+        when (val progress = channel.receive()) {
+            is Progress.InProgress -> {
+                // Stay indeterminate until the server reports the actual progress. The platform
+                // logs an IllegalStateException on setFraction unless we opt out beforehand.
+                indicator.isIndeterminate = false
+                indicator.text = progress.text
+                indicator.fraction = progress.percentage / 100.0
+            }
+
+            is Progress.Done -> break
+        }
+    }
 }
 
 class RustOwlLspNotificationHandler(
@@ -83,18 +104,7 @@ class RustOwlLspNotificationHandler(
                 val task =
                     object : Task.Backgroundable(project, payload.title) {
                         override fun run(indicator: ProgressIndicator) {
-                            runBlocking {
-                                while (true) {
-                                    when (val progress = channel.receive()) {
-                                        is Progress.InProgress -> {
-                                            indicator.text = progress.text
-                                            indicator.fraction = progress.percentage / 100.0
-                                        }
-
-                                        is Progress.Done -> break
-                                    }
-                                }
-                            }
+                            runBlocking { mirrorProgress(channel, indicator) }
                         }
                     }
 
